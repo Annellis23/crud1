@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+<div class="container">
+    <h2>Iniciar Sesión</h2>
+
+    <input type="email" id="email" placeholder="Correo">
+    <br><br>
+
+    <input type="password" id="password" placeholder="Contraseña">
+    <br><br>
+
+    <button onclick="login()">Login</button>
+</div>
+
+<script>
+async function login() {
+
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    const res = await fetch("http://localhost:3000/api/auth/login", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ email, password })
+    });
+
+    const data = await res.json();
+
+    if(data.token){
+        localStorage.setItem("token", data.token);
+        window.location.href = "tasks.html";
+    } else {
+        alert("Login incorrecto");
+    }
+}
+</script>
+
+</body>
+</html>
